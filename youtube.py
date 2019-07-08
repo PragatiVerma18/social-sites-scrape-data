@@ -6,7 +6,6 @@ from csv import writer
 base = "https://www.youtube.com/results?search_query="
 qstring = "oneplus+advert"
 r = requests.get(base+qstring)
-
 page = r.text
 soup=bs(page,'html.parser')
 #print(soup.prettify())
