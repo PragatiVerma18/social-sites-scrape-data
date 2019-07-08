@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import requests
 import json
+from csv import writer
 
 base = "https://www.youtube.com/results?search_query="
 qstring = "oneplus+advert"
@@ -17,7 +18,7 @@ ownerlist = []
 titles = []
 info_time = []
 info_view = []
-yt_details = {}
+
 
 for v in vids:
     tmp = 'https://www.youtube.com' + v['href']
@@ -39,13 +40,17 @@ for info in soup.findAll('ul',attrs={'class':"yt-lockup-meta-info"}):
       info_time.append(children[i].get_text())
     else:
       info_view.append(children[i].get_text())
-#print(info_time,info_view)
 
-#making a dictionary with all data
-#for i in vids:
+with open('videos.csv', 'w', encoding = "utf-8") as csv_file:
+  csv_writer = writer(csv_file)
+  headers = ['Title', 'Link', 'Owner', 'Time', 'Views']
+  csv_writer.writerow(headers)
 
-
-
-# writing in a JSON file
-#with open('personal.json', 'w') as json_file:  
-    #json.dump(yt_details, json_file)
+  for i in range(len(info_view)):
+    yt_details = {}
+    title = titles[i]
+    link = videolist[i]
+    owner = ownerlist[i]
+    time = info_time[i]
+    view= info_view[i]
+    csv_writer.writerow([title, link, owner, time, view])
